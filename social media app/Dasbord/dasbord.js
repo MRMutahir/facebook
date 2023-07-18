@@ -1,40 +1,10 @@
-// let name = document.getElementById('name');
 // let number = document.getElementById('number');
 // let emaildash = document.getElementById('email');
-// let password = document.getElementById('password');
-// let add = document.getElementById('add');
-import { collection, getDocs, db, getAuth, onAuthStateChanged, doc, getDoc } from "../forms/firebase.js";
+import { collection, getDocs, db, getAuth, onAuthStateChanged, doc, getDoc, setDoc } from "../forms/firebase.js";
 
 let login_email = document.querySelector('.login_email');
 let login_name = document.querySelector('.login_name');
 let login_birthday = document.querySelector('.login_birthday');
-// console.log(lo);
-
-
-// const q = query(collection(db, "usersigindata"), where("capital", "==", true));
-
-// const querySnapshot = await getDocs(q);
-// querySnapshot.forEach((doc) => {
-//     // doc.data() is never undefined for query doc snapshots
-//     console.log(doc.id, " => ", doc.data());
-//     const { name, email, date, month, years } = doc.data();
-//     // console.log(name, email, birthday);
-//     // console.log(birthday);
-//     login_name.innerHTML = name
-//     login_email.innerHTML = email
-//     login_birthday.innerHTML = `${date }  - ${month }- ${years }`
-// });
-
-// const querySnapshot = await getDocs(collection(db, "usersigindata"));
-// querySnapshot.forEach((doc) => {
-//     console.log(`${doc.id} => `, doc.data());
-//     // console.log(uid);
-//     const { name, email, date, month, years } = doc.data();
-//     // console.log(name, email, birthday);
-//     // console.log(birthday);
-//     login_name.innerHTML = name
-//     login_email.innerHTML = email
-//     login_birthday.innerHTML = `${date }  - ${month }- ${years }`
 const auth = getAuth();
 onAuthStateChanged(auth, async(user) => {
     if (user) {
@@ -42,8 +12,9 @@ onAuthStateChanged(auth, async(user) => {
         // https://firebase.google.com/docs/reference/js/auth.user
         const uid = user.uid;
         // ...
-        displayuserData(uid)
-
+        displayuserData(uid);
+        addpostdata(uid);
+        // console.log(uid, '==>>user login hen ');
     } else {
         // User is signed out
         // ...
@@ -61,6 +32,7 @@ let displayuserData = async(usercurrentID) => {
         login_name.innerHTML = name
         login_email.innerHTML = email
         login_birthday.innerHTML = `${date }  - ${month }- ${years }`
+            // let cuurentname = name
 
     } else {
         // docSnap.data() will be undefined in this case
@@ -68,9 +40,45 @@ let displayuserData = async(usercurrentID) => {
     }
 }
 
+let postmenu = document.getElementById('postmenu');
+let postBtn1 = document.getElementById('postBtn1');
+let postMain = document.getElementById('postMain');
 
 
+postBtn1.addEventListener('click', () => {
+    console.log(postmenu.value);
 
+    let divPost = document.createElement('div');
+    // divPost.innerHTML = postmenu.value;
 
+    const postcontent = `  <div class="post">
+    <div class="item1">
+        <img src="../Dasbord/dasbordimg/profile1.jpeg" height="50px" width="50px" style="border-radius: 50px;" alt="">
+        <div>name <br> <span>12-3-9</span></div>
+        <span id="icon" class="ml-3">Icon</span>
+      </div>
+      <div class="text"> ${postmenu.value}</div>
+      <div class="imgpost"></div>
+      <div class="like">
+        <div>hi</div>
+        <div>hi</div>
+        <div>hi</div>
+      </div>
+     </div>`
+        // postMain.appendChild(divPost);
+        // divPost.setAttribute('class', 'divpost');
+        // console.log(postcontent);
+    divPost.innerHTML = postcontent;
+    postMain.appendChild(divPost);
+    // console.log(divPost);
 
-// console.log(login_birthday, login_email, login_name);
+    // document.body.innerHTML = postmenu.value
+
+})
+let addpostdata = async(postid) => {
+    // console.log(postid);
+    await setDoc(doc(db, "postcontent", postid), {
+        posttext: postmenu.value,
+        date: new Date().toLocaleString()
+    });
+}
