@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, setDoc, getDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 // Required for side-effects
 // import "firebase/firestore";
@@ -21,4 +21,4 @@ const auth = getAuth(app);
 // firestore
 const db = getFirestore(app);
 
-export { auth, getAuth, createUserWithEmailAndPassword, db, doc, setDoc, collection, getDocs, onAuthStateChanged, signInWithEmailAndPassword, getDoc }
+export { auth, getAuth, createUserWithEmailAndPassword, addDoc, db, doc, setDoc, collection, getDocs, onAuthStateChanged, signInWithEmailAndPassword, getDoc, onSnapshot }

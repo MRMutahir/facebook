@@ -1,6 +1,6 @@
 // let number = document.getElementById('number');
 // let emaildash = document.getElementById('email');
-import { collection, getDocs, db, getAuth, onAuthStateChanged, doc, getDoc, setDoc } from "../forms/firebase.js";
+import { collection, getDocs, addDoc, db, getAuth, onAuthStateChanged, doc, getDoc, setDoc, onSnapshot } from "../forms/firebase.js";
 
 let login_email = document.querySelector('.login_email');
 let login_name = document.querySelector('.login_name');
@@ -13,7 +13,8 @@ onAuthStateChanged(auth, async(user) => {
         const uid = user.uid;
         // ...
         displayuserData(uid);
-        addpostdata(uid);
+        // id(uid)
+        // addpostdata(uid);
         // console.log(uid, '==>>user login hen ');
     } else {
         // User is signed out
@@ -44,10 +45,13 @@ let postmenu = document.getElementById('postmenu');
 let postBtn1 = document.getElementById('postBtn1');
 let postMain = document.getElementById('postMain');
 
+console.log(postmenu.value);
 
 postBtn1.addEventListener('click', () => {
-    console.log(postmenu.value);
 
+    // function id(a) {
+    //     console.log(a);
+    // }
     let divPost = document.createElement('div');
     // divPost.innerHTML = postmenu.value;
 
@@ -70,15 +74,18 @@ postBtn1.addEventListener('click', () => {
         // console.log(postcontent);
     divPost.innerHTML = postcontent;
     postMain.appendChild(divPost);
-    // console.log(divPost);
-
-    // document.body.innerHTML = postmenu.value
-
-})
-let addpostdata = async(postid) => {
-    // console.log(postid);
-    await setDoc(doc(db, "postcontent", postid), {
+    const docRef = addDoc(collection(db, "postcontent"), {
         posttext: postmenu.value,
-        date: new Date().toLocaleString()
+        date: new Date()
+    });
+    console.log("Document  ", docRef);
+    console.log("Document written with ID: ", docRef.id);
+    readData()
+});
+
+
+let readData = () => {
+    const unsub = onSnapshot(doc(db, "postcontent", "SF"), (doc) => {
+        console.log("Current data: ", doc.data());
     });
 }
