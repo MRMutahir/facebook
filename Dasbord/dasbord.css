@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.divpost {
+    height: 25vh;
+    width: 10vw;
+    background-color: antiquewhite;
+    border-radius: 5px;
+    margin: 20px;
+}
+
+
+/* dom csss */
+
+.post {
+    margin: 10px;
+    height: 55vh;
+    width: 30vw;
+    border: solid black 1px;
+}
+
+.item1 {
+    display: flex;
+}
+
+.post #icon {
+    color: red;
+    margin-left: 50%;
+}
+
+.text {
+    width: 30vw;
+    margin: 20px;
+}
+
+.imgpost {
+    background-image: url(../Dasbord/dasbordimg/3.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 20vh;
+    width: 30vw;
+}
+
+.like {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
