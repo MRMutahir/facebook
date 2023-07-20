@@ -24,6 +24,12 @@ onAuthStateChanged(auth, async(user) => {
         // ...
         console.log('cmat');
     }
+
+
+
+
+
+
 });
 // });
 let displayuserData = async(usercurrentID) => {
@@ -51,74 +57,187 @@ let postMain = document.getElementById('postMain');
 // console.log(postmenu.value);
 
 postBtn1.addEventListener('click', async() => {
-    const docRef = doc(db, "usersigindata", isloggedinuser);
-    const docSnap = await getDoc(docRef);
+    postUiset();
+    postdatasave();
+});
 
-    if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-    } else {
-        // docSnap.data() will be undefined in this case
-        console.log("No such document!");
+
+
+async function postdatasave(params) {
+
+
+    try {
+        const docRef = doc(db, "usersigindata", isloggedinuser)
+        const docSnap = await getDoc(docRef);
+        // console.log(docRef);
+
+        if (docSnap.exists()) {
+            // console.log("Document data:", docSnap.data());
+            //
+            const { name, email, } = docSnap.data();
+            console.log(name, email);
+            // console.log(name, email);
+            try {
+                const docRef = await addDoc(collection(db, "postcontent"), {
+                    posttext: postmenu.value,
+                    date: new Date().toLocaleString(),
+                    userid: isloggedinuser,
+                    namecurent: name,
+                    emailcrent: email // currentUsername =
+                });
+
+                console.log("Document written with ID: ", docRef.id);
+                // console.log(isloggedinuser);
+            } catch (error) {
+                console.error("Error adding document: ", error);
+            }
+
+        } else {
+            // docSnap.data() will be undefined in this case
+            console.log("No such document!");
+        }
+
+    } catch (error) {
+        console.log(error);
     }
-    const { name, email, date, month, years } = docSnap.data();
-    // current_name.innerHTML = name
-    // current_email.innerHTML = email
-    // current_birthday.innerHTML = `${date }  - ${month }- ${years }`
 
+
+};
+
+
+async function postUiset() {
+    let date = new Date().toLocaleString()
     let divPost = document.createElement('div');
-    const postcontent = `  <div class="post">
-    <div class="item1">
-        <img src="../Dasbord/dasbordimg/profile1.jpeg" height="50px" width="50px" style="border-radius: 50px;" alt="">
-        <div>${name} <br> <span>${email}</span></div>
-        <span id="icon" class="ml-3">Icon</span>
-      </div>
-      <div class="text"> ${postmenu.value}</div>
-      <div class="imgpost"></div>
-      <div class="like">
-        <div>${date}</div>
-        <div>${month}</div>
-        <div>${years}</div>
-      </div>
-     </div>`
+
+    let username = []
+    console.log(username);
+
+    onAuthStateChanged(auth, async(user) => {
+        if (user) {
+            const uid = user.uid;
+            displayuserData(uid);
+            // isloggedinuser = uid;
+            // console.log(uid, '==>>user login hen ');
+            // let nameayaHen = namepush()
+            // console.log(user.email);
+            let a = user.email
+            console.log(a);
+            username.push(a)
+                // console.log(user);
+                // username = user.email
+                // console.log(nameayaHen);
+        } else {
+            // User is signed out
+            // ...
+            console.log('cmat');
+        }
+    });
+
+    const postcontent = `<div class="post">
+<div class="item1">
+    <img src="../Dasbord/dasbordimg/profile1.jpeg" height="50px" width="50px" style="border-radius: 50px;" alt="">
+    <div> <br><span></span>  <span>${date}</span></div>
+    <span id="icon" class="ml-3">Icon</span>
+  </div>
+  <div class="text">${postmenu.value} </div>
+  <div class="imgpost"></div>
+  <div class="like">
+    <div>==>></div>
+    <div>==>></div>
+    <div>==>></div>
+  </div>
+ </div>`
 
     divPost.innerHTML = postcontent;
     postMain.appendChild(divPost);
-
-    try {
-        const docRef = await addDoc(collection(db, "postcontent"), {
-            posttext: postmenu.value,
-            date: new Date().toLocaleString(),
-            userid: isloggedinuser,
-            // currentUsername =
-        });
-
-        // console.log("Document written with ID: ", docRef.id);
-        // console.log(isloggedinuser);
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
-
-    displaypost();
-});
-
+}
 displaypost()
+async function displaypost(DATE) {
 
-async function displaypost() {
+    // console.log();
+
     const querySnapshot = await getDocs(collection(db, "postcontent"));
     querySnapshot.forEach((doc) => {
-        postMain.innerHTML += `<div class="post">
-    <div class="item1">
-        <img src="../Dasbord/dasbordimg/profile1.jpeg" height="50px" width="50px" style="border-radius: 50px;" alt="">
-        <div><br> <span>12-3-9</span></div>
-        <span id="icon" class="ml-3">Icon</span>
-      </div>
-      <div class="text"> ${doc.data().posttext}</div>
-      <div class="imgpost"></div>
-      <div class="like">
-        <div>hi</div>
-        <div>hi</div>
-        <div>hi</div>
-      </div>
-     </div>`
+        // console.log(doc.data());
+        // let { name, email } = doc.data();
+        // console.log(name, email);
+        postMain.innerHTML +=
+            `<div class="post">
+        <div class="item1">
+            <img src="../Dasbord/dasbordimg/profile1.jpeg" height="50px" width="50px" style="border-radius: 50px;" alt="">
+            <div><br><span>${doc.data().namecurent} ${doc.data().emailcrent}</span> <span>${doc.data().date}</span></div>
+            <span id="icon" class="ml-3">Icon</span>
+          </div>
+          <div class="text"> ${doc.data().posttext}</div>
+          <div class="imgpost"></div>
+          <div class="like">
+            <div>hi</div>
+            <div>hi</div>
+            <div>hi</div>
+          </div>
+         </div>`
+
+
+
     })
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// displaypost()

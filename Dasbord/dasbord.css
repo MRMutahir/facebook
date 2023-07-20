@@ -17,8 +17,8 @@
 /* dom csss */
 
 .post {
-    margin: 10px;
-    height: 55vh;
+    margin: 20px;
+    height: 60vh;
     width: 30vw;
     border: solid black 1px;
 }
@@ -44,6 +44,7 @@
     background-size: cover;
     height: 20vh;
     width: 30vw;
+    padding: 10px;
 }
 
 .like {
