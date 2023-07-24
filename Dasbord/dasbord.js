@@ -1,6 +1,6 @@
 // let number = document.getElementById('number');
 // let emaildash = document.getElementById('email');
-import { collection, getDocs, addDoc, db, getAuth, onAuthStateChanged, doc, getDoc, setDoc, onSnapshot,getDocFromCache } from "../forms/firebase.js";
+import { collection, getDocs, addDoc, db, getAuth, onAuthStateChanged, doc, getDoc, setDoc, onSnapshot,getDocFromCache,deleteDoc  } from "../forms/firebase.js";
 
 let login_email = document.querySelector('.login_email');
 let login_name = document.querySelector('.login_name');
@@ -11,6 +11,7 @@ let isloggedinuser;
 const auth = getAuth();
 onAuthStateChanged(auth, async(user) => {
     if (user) {
+        
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
         const uid = user.uid;
@@ -38,6 +39,7 @@ let displayuserData = async(usercurrentID) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
+    
         // console.log("Document data:", docSnap.data());
         const { name, email, date, month, years, fathername } = docSnap.data();
         login_name.innerHTML = name
@@ -46,11 +48,12 @@ let displayuserData = async(usercurrentID) => {
         login_birthday.innerHTML = `${date }  - ${month }- ${years }`
             // let cuurentname = name
 
-    } else {
-        // docSnap.data() will be undefined in this case
-        console.log("No such document!");
+        } else {
+            // docSnap.data() will be undefined in this case
+            console.log("No such document!");
+        }
     }
-}
+
 
 let postmenu = document.getElementById('postmenu');
 let postBtn1 = document.getElementById('postBtn1');
@@ -74,7 +77,6 @@ async function postdatasave() {
         // console.log(docRef);
 
         if (docSnap.exists()) {
-            
             try {
                 const docRef = await addDoc(collection(db, "postcontent"), {
                     posttext: postmenu.value,
@@ -90,6 +92,7 @@ async function postdatasave() {
             } catch (error) {
                 console.error("Error adding document: ", error);
             }
+            // console.log(docSnap.data());
 
         } else {
             // docSnap.data() will be undefined in this case
@@ -130,29 +133,64 @@ async function postUiset() {
             console.log('cmat');
         }
     });
-
+  
+    
+    const docRef = doc(db, "usersigindata", isloggedinuser)
+  const docSnap = await getDoc(docRef);
+  
+    if (docSnap.exists()) {
+    
+        // console.log("Document data:", docSnap.data());
+        
+        
+    } else {
+        
+        console.log("No such document!");
+    }
+     const { name, email,} = docSnap.data();
     const postcontent = `<div class="post">
-<div class="item1">
-    <img src="../Dasbord/dasbordimg/profile1.jpeg" height="50px" width="50px" style="border-radius: 50px;" alt="">
+    <div class="item1">
+    <img id='postimg' src="../Dasbord/dasbordimg/profile1.jpeg" height="50px" width="50px" style="border-radius: 50px;" alt="">
     <div>
-     <div></div>
-     </div>
-    <div id="icon" class="ml-3">Icon</div>
+     <div>
+     
+     <span>${name} ${email}
+    ${new Date().toLocaleString()}
+    </span></div>
+    </div>
+
+    <span id="icon" class="ml-3">
+    <select id="dropdown" class="fa-solid fa-caret-down">
+    <option value="option1">Edit</option>
+    <option value="option2">Delet Post</option>
+    <option value="option3">pin</option>
+
   </div>
+
+
   <div class="text">${postmenu.value} </div>
+
+
+
   <div class="imgpost"></div>
+
+
+
+  <!--  
   <div class="like">
-    <div>==>></div>
-    <div>==>></div>
-    <div>==>></div>
+    <div>hi</div>
+    <div>hi</div>
+    <div>hi</div>
   </div>
+  -->
  </div>`
-//  const { name, email,} = docSnap.data();
+
+ 
  await setDoc(doc(db, "postcontent", isloggedinuser), {
      posttext: postmenu.value,
      id: isloggedinuser,
-    //  Name: name,
-    //  Email: email,
+     Name: name,
+     Email: email,
      date: new Date().toLocaleString()
 
  });
@@ -164,34 +202,115 @@ async function postUiset() {
 
 displaypost()
 async function displaypost() {
-
+    
     // console.log();
-
-    const querySnapshot = await getDocs(collection(db, "postcontent"));
-    querySnapshot.forEach((doc) => {
-        console.log(doc.data());
-        // let { name, email } = doc.data();
-        // console.log(name, email);
-        postMain.innerHTML +=
+    
+  
+const querySnapshot = await getDocs(collection(db, "postcontent"));
+querySnapshot.forEach((doc) => {
+  // doc.data() is never undefined for query doc snapshots
+  console.log(doc.id, " => ", doc.data());
+   postMain.innerHTML 
+        +=
             `<div class="post">
         <div class="item1">
-            <img src="../Dasbord/dasbordimg/profile1.jpeg" height="50px" width="50px" style="border-radius: 50px;" alt="">
-            <div><br><span>${doc.data().namecurent} ${doc.data().emailcrent}</span> <span>${doc.data().date}</span></div>
-            <span id="icon" class="ml-3">Icon</span>
+            <img id='postimg' src="../Dasbord/dasbordimg/profile1.jpeg" height="50px" width="50px" style="border-radius: 50px;" alt="">
+            <div id='postmainname'><br/><span>
+            ${doc.data().name}
+            ${doc.data().email}
+            ${doc.data().email}
+            ${doc.data().email}</span>
+            </div>
+
+
+
+
+            <span id="icon" class="ml-3">
+            <select id="dropdown" class="fa-solid fa-caret-down">
+            <option value="option1" id='Editt' onclick="edit()">Edit
+        
+            
+            
+            </option>
+            <option value="option2">Delet Post</option>
+            <option value="option3">pin</option>
+
+
+        </select>
+      
+
+        </span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           </div>
-          <div class="text"> ${doc.data().posttext}</div>
-          <div class="imgpost"></div>
+
+          <div class="text"> 
+
+          ${doc.data().posttext}
+          
+          </div>
+
+
+          <div class="imgpost">
+          
+          
+          </div>
+          <!--  
           <div class="like">
             <div>hi</div>
             <div>hi</div>
             <div>hi</div>
           </div>
+          -->
          </div>`
-    })
+});
+
+
+       
+        // const { name, email,} = doc.data();
+        // console.log(name,email)();
+
+        
+        
+       
+     
+    
 }
 
+//  let 
+let edit = document.querySelector('#Editt')
+console.log(edit);
+// edit.addEventListener('click',()=>{console.log('hm');})
 
 
+    
+// setTimeout(async() => {
+//     const docRef = doc(db, "usersigindata", isloggedinuser)
+//     const docSnap = await getDoc(docRef);
+    
+//       if (docSnap.exists()) {
+      
+//           console.log("Document data:", docSnap.data());
+          
+          
+//       } else {
+          
+//           console.log("No such document!");
+//       }
+// }, 1000);
 
 
 
