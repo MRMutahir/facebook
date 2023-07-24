@@ -1,12 +1,13 @@
 // let number = document.getElementById('number');
 // let emaildash = document.getElementById('email');
-import { collection, getDocs, addDoc, db, getAuth, onAuthStateChanged, doc, getDoc, setDoc, onSnapshot } from "../forms/firebase.js";
+import { collection, getDocs, addDoc, db, getAuth, onAuthStateChanged, doc, getDoc, setDoc, onSnapshot,getDocFromCache } from "../forms/firebase.js";
 
 let login_email = document.querySelector('.login_email');
 let login_name = document.querySelector('.login_name');
 let login_birthday = document.querySelector('.login_birthday');
+let login_fname = document.querySelector('.login_fname');
+// console.log(login_fname);
 let isloggedinuser;
-
 const auth = getAuth();
 onAuthStateChanged(auth, async(user) => {
     if (user) {
@@ -31,16 +32,17 @@ onAuthStateChanged(auth, async(user) => {
 
 
 });
-// });
+
 let displayuserData = async(usercurrentID) => {
     const docRef = doc(db, "usersigindata", usercurrentID)
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
         // console.log("Document data:", docSnap.data());
-        const { name, email, date, month, years } = docSnap.data();
+        const { name, email, date, month, years, fathername } = docSnap.data();
         login_name.innerHTML = name
         login_email.innerHTML = email
+        login_fname.innerHTML = fathername
         login_birthday.innerHTML = `${date }  - ${month }- ${years }`
             // let cuurentname = name
 
@@ -63,7 +65,7 @@ postBtn1.addEventListener('click', async() => {
 
 
 
-async function postdatasave(params) {
+async function postdatasave() {
 
 
     try {
@@ -72,18 +74,15 @@ async function postdatasave(params) {
         // console.log(docRef);
 
         if (docSnap.exists()) {
-            // console.log("Document data:", docSnap.data());
-            //
-            const { name, email, } = docSnap.data();
-            console.log(name, email);
-            // console.log(name, email);
+            
             try {
                 const docRef = await addDoc(collection(db, "postcontent"), {
                     posttext: postmenu.value,
                     date: new Date().toLocaleString(),
                     userid: isloggedinuser,
-                    namecurent: name,
-                    emailcrent: email // currentUsername =
+                    // namecurent: name,
+                    // emailcrent: email,
+                    // fathername: fname
                 });
 
                 console.log("Document written with ID: ", docRef.id);
@@ -109,8 +108,7 @@ async function postUiset() {
     let date = new Date().toLocaleString()
     let divPost = document.createElement('div');
 
-    let username = []
-    console.log(username);
+ 
 
     onAuthStateChanged(auth, async(user) => {
         if (user) {
@@ -120,12 +118,12 @@ async function postUiset() {
             // console.log(uid, '==>>user login hen ');
             // let nameayaHen = namepush()
             // console.log(user.email);
-            let a = user.email
-            console.log(a);
-            username.push(a)
-                // console.log(user);
-                // username = user.email
-                // console.log(nameayaHen);
+            // let a = user.email
+            // console.log(a);
+            // username.push(a)
+            // console.log(user);
+            // username = user.email
+            // console.log(nameayaHen);
         } else {
             // User is signed out
             // ...
@@ -136,8 +134,10 @@ async function postUiset() {
     const postcontent = `<div class="post">
 <div class="item1">
     <img src="../Dasbord/dasbordimg/profile1.jpeg" height="50px" width="50px" style="border-radius: 50px;" alt="">
-    <div> <br><span></span>  <span>${date}</span></div>
-    <span id="icon" class="ml-3">Icon</span>
+    <div>
+     <div></div>
+     </div>
+    <div id="icon" class="ml-3">Icon</div>
   </div>
   <div class="text">${postmenu.value} </div>
   <div class="imgpost"></div>
@@ -147,18 +147,29 @@ async function postUiset() {
     <div>==>></div>
   </div>
  </div>`
+//  const { name, email,} = docSnap.data();
+ await setDoc(doc(db, "postcontent", isloggedinuser), {
+     posttext: postmenu.value,
+     id: isloggedinuser,
+    //  Name: name,
+    //  Email: email,
+     date: new Date().toLocaleString()
 
-    divPost.innerHTML = postcontent;
-    postMain.appendChild(divPost);
+ });
+ divPost.innerHTML = postcontent;
+ postMain.appendChild(divPost);
+
 }
+
+
 displaypost()
-async function displaypost(DATE) {
+async function displaypost() {
 
     // console.log();
 
     const querySnapshot = await getDocs(collection(db, "postcontent"));
     querySnapshot.forEach((doc) => {
-        // console.log(doc.data());
+        console.log(doc.data());
         // let { name, email } = doc.data();
         // console.log(name, email);
         postMain.innerHTML +=
@@ -176,9 +187,6 @@ async function displaypost(DATE) {
             <div>hi</div>
           </div>
          </div>`
-
-
-
     })
 }
 

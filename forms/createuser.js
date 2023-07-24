@@ -1,11 +1,12 @@
 import { auth, getAuth, createUserWithEmailAndPassword, db, doc, setDoc } from "./firebase.js";
 let createName = document.getElementById('Newname');
-let lastName = document.getElementById('lastName');
+let fatherName = document.getElementById('Fathername');
 let createEmail = document.getElementById('number_email');
 let createPaswoord = document.getElementById('newPassword');
 let brith_date = document.getElementById('brith_date');
 let brith_month = document.getElementById('brith_Month');
 let brith_years = document.getElementById('brith_years');
+// console.log(fatherName.value);
 
 
 let singup = document.getElementById('Singup');
@@ -22,6 +23,7 @@ singup.addEventListener('click', async() => {
         let userDATA = {
             name: createName.value,
             email: createEmail.value,
+            fathername: fatherName.value,
             password: createPaswoord.value,
             date: brith_date.value,
             month: brith_month.value,
@@ -49,6 +51,7 @@ singup.addEventListener('click', async() => {
                     brith_date.value = ''
                     brith_month.value = ''
                     brith_years.value = ''
+                    fatherName.value = ''
                     window.location.href = "../Dasbord/dasbord.html";
 
                 } catch (error) {
