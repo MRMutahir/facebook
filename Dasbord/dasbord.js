@@ -135,7 +135,7 @@ async function postUiset() {
     });
   
     
-    const docRef = doc(db, "usersigindata", isloggedinuser)
+  const docRef = doc(db, "usersigindata", isloggedinuser)
   const docSnap = await getDoc(docRef);
   
     if (docSnap.exists()) {
@@ -203,12 +203,15 @@ async function postUiset() {
 displaypost()
 async function displaypost() {
     
-    // console.log();
-    
+   
   
 const querySnapshot = await getDocs(collection(db, "postcontent"));
+
+// let data =  docSnap.data();
+// const {email,name} = data
+// console.log(email,name);
 querySnapshot.forEach((doc) => {
-  // doc.data() is never undefined for query doc snapshots
+
   console.log(doc.id, " => ", doc.data());
    postMain.innerHTML 
         +=
@@ -216,10 +219,8 @@ querySnapshot.forEach((doc) => {
         <div class="item1">
             <img id='postimg' src="../Dasbord/dasbordimg/profile1.jpeg" height="50px" width="50px" style="border-radius: 50px;" alt="">
             <div id='postmainname'><br/><span>
-            ${doc.data().name}
-            ${doc.data().email}
-            ${doc.data().email}
-            ${doc.data().email}</span>
+        
+            </span>
             </div>
 
 
@@ -277,68 +278,48 @@ querySnapshot.forEach((doc) => {
           -->
          </div>`
 });
-
-
-       
-        // const { name, email,} = doc.data();
-        // console.log(name,email)();
-
-        
-        
-       
-     
+  
     
 }
 
-//  let 
-let edit = document.querySelector('#Editt')
-console.log(edit);
-// edit.addEventListener('click',()=>{console.log('hm');})
 
 
-    
-// setTimeout(async() => {
-//     const docRef = doc(db, "usersigindata", isloggedinuser)
-//     const docSnap = await getDoc(docRef);
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// setTimeout(() => {
+//     const docRef = doc(db, "postcontent", );
+//     try {
+//       const docSnap =  getDoc(docRef);
+  
 //       if (docSnap.exists()) {
-      
-//           console.log("Document data:", docSnap.data());
-          
-          
+//         // Document data is available in docSnap.data()
+//         const data = docSnap.data();
+//         console.log("Document data:", data);
+//         const {Name,Email,date} = data
+//         console.log(Name,Email,date);
 //       } else {
-          
-//           console.log("No such document!");
+//         console.log("No such document!");
 //       }
+//     } catch (error) {
+//       console.log("Error getting document:", error);
+//     }
 // }, 1000);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   
 
 
 
