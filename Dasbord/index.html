@@ -19,10 +19,11 @@
     referrerpolicy="no-referrer"
   />
   <style>
-    /* .main {
-      margin: 0px auto;
-      margin-left: 20%;
-    } */
+    .container {
+      height: 80vh;
+      width: 50vw;
+      border: 1px solid black;
+    }
     .firstchild {
       display: flex;
       /* color: aquas; */
@@ -49,10 +50,10 @@
     }
     .secondchild {
       display: flex;
-      margin: 40px;
+      margin: 20px;
     }
     #btn_1 {
-      margin-left: 60vw;
+      margin-left: 20vw;
       background-color: transparent;
       /* padding: 20px; */
       border: none;
@@ -64,7 +65,11 @@
     #imgpost {
       border-radius: 5px;
       /* margin: 40px; */
-      margin-top: 20px;
+      margin-top: 10px;
+    }
+    .likes {
+      display: flex;
+      justify-content: space-around;
     }
   </style>
 
@@ -78,7 +83,7 @@
           <i class="fa-solid fa-xmark"></i>
         </span>
       </div>
-      <br />
+      <!-- <br /> -->
       <hr id="line1" />
       <div class="secondchild">
         <div id="child1">
@@ -112,10 +117,19 @@
             <img
               id="imgpost"
               src="./dasbordimg/postimg.jpg"
-              height="300px"
+              height="200px"
               width="100%"
               alt=""
             />
+          </div>
+          <hr />
+          <div class="likes">
+            <div class="like1"><i class="fa-regular fa-thumbs-up"></i></div>
+            <div class="like2"><i class="fa-regular fa-comment"></i></div>
+            <div class="like3"><i class="fa-solid fa-upload"></i></div>
+            <div class="like4">
+              <i class="fa-solid fa-trash-can"></i>
+            </div>
           </div>
         </div>
       </div>
