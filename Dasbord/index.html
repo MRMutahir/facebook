@@ -1,22 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-<style>
+  </head>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <style>
+    /* .main {
+      margin: 0px auto;
+      margin-left: 20%;
+    } */
+    .firstchild {
+      display: flex;
+      /* color: aquas; */
+      justify-content: space-around;
+    }
 
-</style>
+    #smaal1 {
+      font-weight: 200;
+      font-size: 12px;
+    }
+    #line1 {
+      width: 80%;
+      /* margin-top: 50px; */
+      /* text-align: center;
+       */
+      margin: 0px auto;
+    }
+    #imgprofilemain {
+      border-radius: 50%;
+    }
+    #font-size {
+      font-size: 12px;
+      margin-left: 20px;
+    }
+    .secondchild {
+      display: flex;
+      margin: 40px;
+    }
+    #btn_1 {
+      margin-left: 60vw;
+      background-color: transparent;
+      /* padding: 20px; */
+      border: none;
+      color: rgb(10, 122, 226);
+    }
+    .postcontent {
+      text-align: justify;
+    }
+    #imgpost {
+      border-radius: 5px;
+      /* margin: 40px; */
+      margin-top: 20px;
+    }
+  </style>
 
-<body>
-
-
+  <body>
     <!-- <img src="../Dasbord/dasbordimg/profile1.jpeg" alt=""> -->
-
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <div class="container">
+      <div class="firstchild">
+        <h3>Muhammad Mutahir <small id="smaal1">like this post</small></h3>
+        <span id="first_child_space">
+          <i class="fa-solid fa-ellipsis"></i>
+          <i class="fa-solid fa-xmark"></i>
+        </span>
+      </div>
+      <br />
+      <hr id="line1" />
+      <div class="secondchild">
+        <div id="child1">
+          <img
+            id="imgprofilemain"
+            src="./dasbordimg/profile1.jpeg"
+            height="50px"
+            width="50px"
+            alt=""
+          />
+        </div>
+        <div id="child2">
+          <h1 id="font-size">Name</h1>
+          <h2 id="font-size">email</h2>
+          <h3 id="font-size">1-12-2023</h3>
+        </div>
+        <div id="child3">
+          <button id="btn_1">
+            <i class="fa-solid fa-list-ul"></i> Connect
+          </button>
+        </div>
+      </div>
+      <div class="thirdchild">
+        <div class="postcontent">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia,
+          perferendis. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Optio, quod. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Mollitia, perferendis. Lorem ipsum dolor sit amet, consectetur
+          adipisicing elit. Optio, quod.
+          <div class="video_img">
+            <img
+              id="imgpost"
+              src="./dasbordimg/postimg.jpg"
+              height="300px"
+              width="100%"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </html>

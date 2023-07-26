@@ -78,16 +78,16 @@ async function postdatasave() {
 
         if (docSnap.exists()) {
             try {
-                const docRef = await addDoc(collection(db, "postcontent"), {
-                    posttext: postmenu.value,
-                    date: new Date().toLocaleString(),
-                    userid: isloggedinuser,
-                    // namecurent: name,
-                    // emailcrent: email,
-                    // fathername: fname
-                });
+                // const docRef = await addDoc(collection(db, "postcontent"), {
+                //     posttext: postmenu.value,
+                //     date: new Date().toLocaleString(),
+                //     userid: isloggedinuser,
+                //     namecurent: name,
+                //     emailcrent: email,
+                //     fathername: fname
+                // });
 
-                console.log("Document written with ID: ", docRef.id);
+                console.log("Document written with ID: ye id post ki hen ", docRef.id);
                 // console.log(isloggedinuser);
             } catch (error) {
                 console.error("Error adding document: ", error);
@@ -117,16 +117,7 @@ async function postUiset() {
         if (user) {
             const uid = user.uid;
             displayuserData(uid);
-            // isloggedinuser = uid;
-            // console.log(uid, '==>>user login hen ');
-            // let nameayaHen = namepush()
-            // console.log(user.email);
-            // let a = user.email
-            // console.log(a);
-            // username.push(a)
-            // console.log(user);
-            // username = user.email
-            // console.log(nameayaHen);
+        
         } else {
             // User is signed out
             // ...
@@ -148,42 +139,8 @@ async function postUiset() {
         console.log("No such document!");
     }
      const { name, email,} = docSnap.data();
-    const postcontent = `<div class="post">
-    <div class="item1">
-    <img id='postimg' src="../Dasbord/dasbordimg/profile1.jpeg" height="50px" width="50px" style="border-radius: 50px;" alt="">
-    <div>
-     <div>
-     
-     <span>${name} ${email}
-    ${new Date().toLocaleString()}
-    </span></div>
-    </div>
-
-    <span id="icon" class="ml-3">
-    <select id="dropdown" class="fa-solid fa-caret-down">
-    <option value="option1">Edit</option>
-    <option value="option2">Delet Post</option>
-    <option value="option3">pin</option>
-
-  </div>
-
-
-  <div class="text">${postmenu.value} </div>
-
-
-
-  <div class="imgpost"></div>
-
-
-
-  <!--  
-  <div class="like">
-    <div>hi</div>
-    <div>hi</div>
-    <div>hi</div>
-  </div>
-  -->
- </div>`
+   
+   
 
  
  await setDoc(doc(db, "postcontent", isloggedinuser), {
@@ -194,92 +151,34 @@ async function postUiset() {
      date: new Date().toLocaleString()
 
  });
- divPost.innerHTML = postcontent;
- postMain.appendChild(divPost);
+
+//  console.log(postcontent)
+//  divPost.innerHTML = postcontent;
+//  postMain.appendChild(divPost);
 
 }
 
 
 displaypost()
+
+
 async function displaypost() {
     
    
-  
+
+  console.log('salam');
+
+ 
+
 const querySnapshot = await getDocs(collection(db, "postcontent"));
-
-// let data =  docSnap.data();
-// const {email,name} = data
-// console.log(email,name);
 querySnapshot.forEach((doc) => {
-
+  // doc.data() is never undefined for query doc snapshots
   console.log(doc.id, " => ", doc.data());
-   postMain.innerHTML 
-        +=
-            `<div class="post">
-        <div class="item1">
-            <img id='postimg' src="../Dasbord/dasbordimg/profile1.jpeg" height="50px" width="50px" style="border-radius: 50px;" alt="">
-            <div id='postmainname'><br/><span>
-        
-            </span>
-            </div>
-
-
-
-
-            <span id="icon" class="ml-3">
-            <select id="dropdown" class="fa-solid fa-caret-down">
-            <option value="option1" id='Editt' onclick="edit()">Edit
-        
-            
-            
-            </option>
-            <option value="option2">Delet Post</option>
-            <option value="option3">pin</option>
-
-
-        </select>
-      
-
-        </span>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          </div>
-
-          <div class="text"> 
-
-          ${doc.data().posttext}
-          
-          </div>
-
-
-          <div class="imgpost">
-          
-          
-          </div>
-          <!--  
-          <div class="like">
-            <div>hi</div>
-            <div>hi</div>
-            <div>hi</div>
-          </div>
-          -->
-         </div>`
+    console.log(doc.data().posttext,doc.data().Email,doc.data().Name);
 });
-  
-    
+
+
+
 }
 
 
