@@ -95,6 +95,17 @@
 #postmainname{
     margin: 20px;
 }
+.postsec{
+  border: 1px solid black;
+  width: 50vw;
+  height: 30vh;
+  padding: 20px;
+  margin-left: 7%;
+}
+.postsec input{
+  margin-top: 20px;
+  margin-left: 80px;
+}
 .text{
     text-align: center;
 }

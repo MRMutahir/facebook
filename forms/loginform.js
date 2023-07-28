@@ -35,6 +35,8 @@ loginbtn.addEventListener('click', () => {
             console.log(user.uid);
 
             window.location.href = "../Dasbord/dasbord.html";
+            loginEmail.innerHTML = '';
+            loginPassword.innerHTML = ''
 
         })
         .catch((error) => {

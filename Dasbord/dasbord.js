@@ -57,6 +57,15 @@ let displayuserData = async(usercurrentID) => {
 
 
 let postmenu = document.getElementById('postmenu');
+let uploadImages = document.getElementById('uploadImages');
+// console.log(uploadImages.files[0]);
+uploadImages.addEventListener('click',uploadImagesfoo)
+function uploadImagesfoo (){
+  // console.log('hi');
+  console.log(uploadImages.files);
+  console.log(uploadImages.files[0].name);
+  
+  }
 let postBtn1 = document.getElementById('postBtn1');
 let postMain = document.getElementById('postMain');
 
@@ -157,7 +166,8 @@ async function postUiset() {
          id: isloggedinuser,
          Name: name,
          Email: email,
-         date: new Date().toLocaleString()
+         date: new Date().toLocaleString(),
+         image:uploadImages.type
   });
 let postcontent =` <div class="container">
 <div class="firstchild">
@@ -271,7 +281,7 @@ let postcontents=
   <div id="child2">
     <h1 id="font-size">${doc.data().Name}</h1>
     <h2 id="font-size">${doc.data().Email}</h2>
-    <h3 id="font-size">1-12-2023</h3>
+    <h3 id="font-size">${new Date().toLocaleString()}</h3>
   </div>
   <div id="child3">
     <button id="btn_1">
@@ -285,7 +295,8 @@ let postcontents=
     <div class="video_img">
       <img
         id="imgpost"
-        src="./dasbordimg/postimg.jpg"
+        src="dasbordimg/postimg.jpg"
+      
         height="200px"
         width="100%"
         alt=""
@@ -295,7 +306,7 @@ let postcontents=
     <div class="likes">
       <div class="like1"><i class="fa-regular fa-thumbs-up"></i></div>
       <div class="like2"><i class="fa-regular fa-comment"></i></div>
-      <div class="like3"><i class="fa-solid fa-upload"></i></div>
+      <div class="like3"><i class="fa-solid fa-upload" onclick="uploadImages()" ></i></div>
       <div class="like4">
         <i class="fa-solid fa-share"></i>
       </div>
@@ -316,8 +327,12 @@ postMain.appendChild(divPost)
 
 
 }
+// let fa_solid =  document.querySelector('.fa-solid');
+// console.log(fa_solid);
+// fa_solid.addEventListener('click',uploadImages)
 
 
+window.uploadImagesfoo = uploadImagesfoo
 
 
 
