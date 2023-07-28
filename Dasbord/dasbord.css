@@ -80,13 +80,11 @@
 } */
 
 
-/* .container {
-    margin: 0px auto;
-} */
 
-.container-lg {
+
+.container-first {
     margin-top: 20px;
-    margin-left: 25%;
+    /* margin-left: 25%; */
 }
 #postmenu{
     margin-left:  80px;
@@ -109,4 +107,63 @@
 }
 #dropdown{
     width: 20px;
+}
+
+
+.container {
+  height: 70vh;
+  width: 50vw;
+  border: 1px solid black;
+}
+.firstchild {
+  display: flex;
+  /* color: aquas; */
+  justify-content: space-around;
+}
+
+#smaal1 {
+  font-weight: 200;
+  font-size: 12px;
+}
+#line1 {
+  width: 80%;
+  /* margin-top: 50px; */
+  /* text-align: center;
+   */
+  margin: 0px auto;
+}
+#imgprofilemain {
+  border-radius: 50%;
+}
+#font-size {
+  font-size: 12px;
+  margin-left: 20px;
+}
+.secondchild {
+  display: flex;
+  margin: 20px;
+}
+#btn_1 {
+  margin-left: 20vw;
+  background-color: transparent;
+  /* padding: 20px; */
+  border: none;
+  color: rgb(10, 122, 226);
+}
+.postcontent {
+  text-align: justify;
+}
+#imgpost {
+  border-radius: 5px;
+  /* margin: 40px; */
+  margin-top: 10px;
+}
+.likes {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px;
+}
+select{
+  width: 20px;
+  margin-top: 10px;
 }

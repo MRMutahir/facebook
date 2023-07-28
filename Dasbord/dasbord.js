@@ -21,10 +21,11 @@ onAuthStateChanged(auth, async(user) => {
         // id(uid)
         // addpostdata(uid);
         // console.log(uid, '==>>user login hen ');
-    } else {
+      } else {
         // User is signed out
         // ...
         console.log('cmat');
+        window.location = '/Dasbord/forms/index.html'
     }
 
 
@@ -107,9 +108,9 @@ async function postdatasave() {
 };
 
 
+let divPost = document.createElement('div');
 async function postUiset() {
     let date = new Date().toLocaleString()
-    let divPost = document.createElement('div');
 
  
 
@@ -143,18 +144,86 @@ async function postUiset() {
    
 
  
- await setDoc(doc(db, "postcontent", isloggedinuser), {
-     posttext: postmenu.value,
-     id: isloggedinuser,
-     Name: name,
-     Email: email,
-     date: new Date().toLocaleString()
+//  await setDoc(doc(db, "postcontent",isloggedinuser ), {
+//      posttext: postmenu.value,
+//      id: isloggedinuser,
+//      Name: name,
+//      Email: email,
+//      date: new Date().toLocaleString()
 
- });
+//  });
+ await addDoc(collection(db, "postcontent"), {
+    posttext: postmenu.value,
+         id: isloggedinuser,
+         Name: name,
+         Email: email,
+         date: new Date().toLocaleString()
+  });
+let postcontent =` <div class="container">
+<div class="firstchild">
+  <h3>Muhammad Mutahir <small id="smaal1">like this post</small></h3>
+  <span id="first_child_space">
+    <!-- <i class="fa-solid fa-ellipsis"></i> -->
+    <select name="" id="" >
+      <option value=""><option>
+      <option value="">Delet</option>
+      <option value="">Edit</option>
+      <option value="">Lock</option>
+    </select>
+    <i class="fa-solid fa-xmark"></i>
+  </span>
+</div>
+<!-- <br /> -->
+<hr id="line1" />
+<div class="secondchild">
+  <div id="child1">
+    <img
+      id="imgprofilemain"
+      src="./dasbordimg/profile1.jpeg"
+      height="50px"
+      width="50px"
+      alt=""
+    />
+  </div>
+  <div id="child2">
+    <h1 id="font-size">${name}</h1>
+    <h2 id="font-size">${email}</h2>
+    <h3 id="font-size">1-12-2023</h3>
+  </div>
+  <div id="child3">
+    <button id="btn_1">
+      <i class="fa-solid fa-list-ul"></i> Connect
+    </button>
+  </div>
+</div>
+<div class="thirdchild">
+  <div class="postcontent">
+   ${postmenu.value}
+    <div class="video_img">
+      <img
+        id="imgpost"
+        src="./dasbordimg/postimg.jpg"
+        height="200px"
+        width="100%"
+        alt=""
+      />
+    </div>
+    <!-- <hr /> -->
+    <div class="likes">
+      <div class="like1"><i class="fa-regular fa-thumbs-up"></i></div>
+      <div class="like2"><i class="fa-regular fa-comment"></i></div>
+      <div class="like3"><i class="fa-solid fa-upload"></i></div>
+      <div class="like4">
+        <i class="fa-solid fa-share"></i>
+      </div>
+    </div>
+  </div>
+</div>
+</div>`
 
 //  console.log(postcontent)
-//  divPost.innerHTML = postcontent;
-//  postMain.appendChild(divPost);
+ divPost.innerHTML += postcontent;
+ postMain.appendChild(divPost);
 
 }
 
@@ -171,10 +240,77 @@ async function displaypost() {
  
 
 const querySnapshot = await getDocs(collection(db, "postcontent"));
-querySnapshot.forEach((doc) => {
+querySnapshot.forEach((doc) => { 
+let postcontents=
+  ` <div class="container">
+  <div class="firstchild">
+  <h3>Muhammad Mutahir <small id="smaal1">like this post</small></h3>
+  <span id="first_child_space">
+    <!-- <i class="fa-solid fa-ellipsis"></i> -->
+    <select name="" id="" >
+      <option value=""><option>
+      <option value="">Delet</option>
+      <option value="">Edit</option>
+      <option value="">Lock</option>
+    </select>
+    <i class="fa-solid fa-xmark"></i>
+  </span>
+ </div>
+ <!-- <br /> -->
+ <hr id="line1" />
+ <div class="secondchild">
+  <div id="child1">
+    <img
+      id="imgprofilemain"
+      src="./dasbordimg/profile1.jpeg"
+      height="50px"
+      width="50px"
+      alt=""
+    />
+  </div>
+  <div id="child2">
+    <h1 id="font-size">${doc.data().Name}</h1>
+    <h2 id="font-size">${doc.data().Email}</h2>
+    <h3 id="font-size">1-12-2023</h3>
+  </div>
+  <div id="child3">
+    <button id="btn_1">
+      <i class="fa-solid fa-list-ul"></i> Connect
+    </button>
+  </div>
+</div>
+<div class="thirdchild">
+  <div class="postcontent">
+  ${doc.data().posttext}
+    <div class="video_img">
+      <img
+        id="imgpost"
+        src="./dasbordimg/postimg.jpg"
+        height="200px"
+        width="100%"
+        alt=""
+      />
+    </div>
+    <!-- <hr /> -->
+    <div class="likes">
+      <div class="like1"><i class="fa-regular fa-thumbs-up"></i></div>
+      <div class="like2"><i class="fa-regular fa-comment"></i></div>
+      <div class="like3"><i class="fa-solid fa-upload"></i></div>
+      <div class="like4">
+        <i class="fa-solid fa-share"></i>
+      </div>
+    </div>
+  </div>
+</div>
+</div>`
+divPost.innerHTML += postcontents;
+postMain.appendChild(divPost)
   // doc.data() is never undefined for query doc snapshots
-  console.log(doc.id, " => ", doc.data());
+  // console.log(doc.id, " => ", doc.data());
+ 
+
     console.log(doc.data().posttext,doc.data().Email,doc.data().Name);
+   
 });
 
 
