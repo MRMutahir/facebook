@@ -178,3 +178,18 @@ select{
   width: 20px;
   margin-top: 10px;
 }
+
+
+#dasbordprofile{
+  height: 100px;
+  width: 100px;
+  border-radius: 50px;
+}
+#dasbordimage{
+  position: relative;
+}
+#uploadimageicondasbord{
+position: absolute;
+left: 85px;
+top: 80px;
+}

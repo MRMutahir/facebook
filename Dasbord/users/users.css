@@ -1,0 +1,48 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns with equal width */
+    grid-gap: 10px; /* Optional gap between items */
+    padding: 20px;
+}
+#user{
+   border: 1px black solid;
+   border-radius: 5px;
+   text-align: center;
+   width: 500px;
+   padding: 40px;
+   line-height: 50px;
+}
+#user img{
+  
+    border-radius: 100px;
+    border: 1px solid red;
+    /* z-index: 6px;
+     */
+     box-shadow: 10px 10px 10px gray;
+     margin-top: 10px;
+   
+ }
+ #btnusersame{
+    padding: 5px;
+    background-color: rgb(16, 149, 231);
+    border-radius: 5px;
+    font-family: monospace;
+    font-weight: 500;
+    margin-left: 5px;
+    margin-top: 10px;
+
+ }
+ #userpara{
+    display: flex;
+    /* margin: 5px; */
+    text-align: center;
+    margin-left: 140px;
+ }
+ 
+ 
+  

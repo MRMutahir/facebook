@@ -357,49 +357,11 @@ postMain.appendChild(divPost)
 
 
 }
-// let fa_solid =  document.querySelector('.fa-solid');
-// console.log(fa_solid);
-// fa_solid.addEventListener('click',uploadImages)
-
-
-// window.uploadImagesfoo = uploadImagesfoo
 
 
 
+//  >>>>>>>>>>>>>>>>>>> video section using API >>>>>>>>>>>>>>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// setTimeout(() => {
-//     const docRef = doc(db, "postcontent", );
-//     try {
-//       const docSnap =  getDoc(docRef);
-  
-//       if (docSnap.exists()) {
-//         // Document data is available in docSnap.data()
-//         const data = docSnap.data();
-//         console.log("Document data:", data);
-//         const {Name,Email,date} = data
-//         console.log(Name,Email,date);
-//       } else {
-//         console.log("No such document!");
-//       }
-//     } catch (error) {
-//       console.log("Error getting document:", error);
-//     }
-// }, 1000);
-   
 
 
 
