@@ -17,7 +17,7 @@ let singup = document.getElementById('Singup');
 
 singup.addEventListener('click', async() => {
     if (createName.value == "" || createEmail.value == '' || createPaswoord.value == '') {
-        return alert('kxh twb lhik')
+        return alert('form is incorrect')
 
     } else {
         let userDATA = {
@@ -62,6 +62,8 @@ singup.addEventListener('click', async() => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 // ..
+                alert( errorMessage, '==>>errorCode:errorMessage');
+              
                 console.log(errorCode, errorMessage, '==>>errorCode:errorMessage');
             });
 

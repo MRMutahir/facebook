@@ -1,8 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword ,signOut} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 import { getFirestore, deleteDoc ,collection, addDoc, getDocs, setDoc, getDoc, doc, onSnapshot,getDocFromCache } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-import { getStorage } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-storage.js";
+import { getStorage ,ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-storage.js";
+
 // Required for side-effects
 // import "firebase/firestore";
 const firebaseConfig = {
@@ -23,5 +24,5 @@ const db = getFirestore(app);
 
 export {
     deleteDoc  ,auth, getAuth, createUserWithEmailAndPassword, addDoc, db, doc, setDoc, collection, getDocs, onAuthStateChanged, 
-    signInWithEmailAndPassword, getDoc, onSnapshot,getDocFromCache 
+    signInWithEmailAndPassword, getDoc, onSnapshot,getDocFromCache , getStorage ,ref, uploadBytesResumable, getDownloadURL ,signOut
 }

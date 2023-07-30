@@ -1,6 +1,6 @@
 // let number = document.getElementById('number');
 // let emaildash = document.getElementById('email');
-import { collection, getDocs, addDoc, db, getAuth, onAuthStateChanged, doc, getDoc, setDoc, onSnapshot,getDocFromCache,deleteDoc  } from "../forms/firebase.js";
+import { collection, getDocs, addDoc, db, getAuth, onAuthStateChanged, doc, getDoc, setDoc, onSnapshot,getDocFromCache,deleteDoc , getStorage ,ref, uploadBytesResumable, getDownloadURL ,signOut } from "../forms/firebase.js";
 
 let login_email = document.querySelector('.login_email');
 let login_name = document.querySelector('.login_name');
@@ -9,6 +9,7 @@ let login_fname = document.querySelector('.login_fname');
 // console.log(login_fname);
 let isloggedinuser;
 const auth = getAuth();
+const storage = getStorage();
 onAuthStateChanged(auth, async(user) => {
     if (user) {
         
@@ -24,7 +25,8 @@ onAuthStateChanged(auth, async(user) => {
       } else {
         // User is signed out
         // ...
-        console.log('cmat');
+        console.log('Login in your account');
+        alert('Login in your account');
         window.location = '/Dasbord/forms/index.html'
     }
 
@@ -58,17 +60,21 @@ let displayuserData = async(usercurrentID) => {
 
 let postmenu = document.getElementById('postmenu');
 let uploadImages = document.getElementById('uploadImages');
-// console.log(uploadImages.files[0]);
-uploadImages.addEventListener('click',uploadImagesfoo)
-function uploadImagesfoo (){
-  // console.log('hi');
-  console.log(uploadImages.files);
-  console.log(uploadImages.files[0].name);
-  
-  }
 let postBtn1 = document.getElementById('postBtn1');
 let postMain = document.getElementById('postMain');
+let logout = document.getElementById('logout');
+// console.log(logout);
+logout.addEventListener('click',()=>{signOut(auth).then(() => {
+  // Sign-out successful.
+  console.log("Sign-out successful.");
+  window.location = '/forms/index.html'
 
+}).catch((error) => {
+  // An error happened.
+  console.log(error,'An error happened.');
+});})
+
+// console.log(uploadImages.files[0]);
 // console.log(postmenu.value);
 
 postBtn1.addEventListener('click', async() => {
@@ -81,37 +87,61 @@ postBtn1.addEventListener('click', async() => {
 async function postdatasave() {
 
 
-    try {
-        const docRef = doc(db, "usersigindata", isloggedinuser)
-        const docSnap = await getDoc(docRef);
-        // console.log(docRef);
 
-        if (docSnap.exists()) {
-            try {
-                // const docRef = await addDoc(collection(db, "postcontent"), {
-                //     posttext: postmenu.value,
-                //     date: new Date().toLocaleString(),
-                //     userid: isloggedinuser,
-                //     namecurent: name,
-                //     emailcrent: email,
-                //     fathername: fname
-                // });
 
-                console.log("Document written with ID: ye id post ki hen ", docRef.id);
-                // console.log(isloggedinuser);
-            } catch (error) {
-                console.error("Error adding document: ", error);
-            }
-            // console.log(docSnap.data());
 
-        } else {
-            // docSnap.data() will be undefined in this case
-            console.log("No such document!");
-        }
 
-    } catch (error) {
-        console.log(error);
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // try {
+    //     const docRef = doc(db, "usersigindata", isloggedinuser)
+    //     const docSnap = await getDoc(docRef);
+    //     // console.log(docRef);
+
+    //     if (docSnap.exists()) {
+    //         try {
+    //             // const docRef = await addDoc(collection(db, "postcontent"), {
+    //             //     posttext: postmenu.value,
+    //             //     date: new Date().toLocaleString(),
+    //             //     userid: isloggedinuser,
+    //             //     namecurent: name,
+    //             //     emailcrent: email,
+    //             //     fathername: fname
+    //             // });
+
+    //             console.log("Document written with ID: ye id post ki hen ", docRef.id);
+    //             // console.log(isloggedinuser);
+    //         } catch (error) {
+    //             console.error("Error adding document: ", error);
+    //         }
+    //         // console.log(docSnap.data());
+
+    //     } else {
+    //         // docSnap.data() will be undefined in this case
+    //         console.log("No such document!");
+    //     }
+
+    // } catch (error) {
+    //     console.log(error);
+    // }
 
 
 };
@@ -131,7 +161,7 @@ async function postUiset() {
         } else {
             // User is signed out
             // ...
-            console.log('cmat');
+            console.log('login your account');
         }
     });
   
@@ -150,90 +180,145 @@ async function postUiset() {
     }
      const { name, email,} = docSnap.data();
    
-   
+     let   realimage = uploadImages.files[0]|| "dasbordimg/postimg.jpg"
+     console.log(realimage);
+     
+     
+     
+     
+     
+     
+     
+     // Create the file metadata
+     /** @type {any} */
+     const metadata = {
+       contentType: 'image/jpeg'
+     };
+     
+     // Upload file and metadata to the object 'images/mountains.jpg'
+     const storageRef = ref(storage, 'images/' + realimage.name );
+     const uploadTask = uploadBytesResumable(storageRef, realimage, metadata);
+     
+     // Listen for state changes, errors, and completion of the upload.
+     uploadTask.on('state_changed',
+     (snapshot) => {
+       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+         console.log('Upload is ' + progress + '% done');
+         switch (snapshot.state) {
+           case 'paused':
+             console.log('Upload is paused');
+             break;
+             case 'running':
+               console.log('Upload is running');
+             break;
+         }
+       }, 
+       (error) => {
+         // A full list of error codes is available at
+         // https://firebase.google.com/docs/storage/web/handle-errors
+         switch (error.code) {
+           case 'storage/unauthorized':
+             // User doesn't have permission to access the object
+             break;
+           case 'storage/canceled':
+             // User canceled the upload
+             break;
+     
+             // ...
+             
+             case 'storage/unknown':
+               // Unknown error occurred, inspect error.serverResponse
+               break;
+         }
+       }, 
+       () => {
+         // Upload completed successfully, now we can get the download URL
+         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          //  console.log('File available at downloadURL', downloadURL);
+           // (downloadURL)
+            addDoc(collection(db, "postcontent"), {
+            posttext: postmenu.value,
+                 id: isloggedinuser,
+                 Name: name,
+                 Email: email,
+                 date: new Date().toLocaleString(),
+                 image:downloadURL
+          });
+          let postcontent =` <div class="container">
+          <div class="firstchild">
+            <h3>Muhammad Mutahir <small id="smaal1">like this post</small></h3>
+            <span id="first_child_space">
+              <!-- <i class="fa-solid fa-ellipsis"></i> -->
+              <select name="" id="" >
+                <option value=""><option>
+                <option value="">Delet</option>
+                <option value="">Edit</option>
+                <option value="">Lock</option>
+              </select>
+              <i class="fa-solid fa-xmark"></i>
+            </span>
+          </div>
+          <!-- <br /> -->
+          <hr id="line1" />
+          <div class="secondchild">
+            <div id="child1">
+              <img
+                id="imgprofilemain"
+                src="./dasbordimg/profile1.jpeg"
+                height="50px"
+                width="50px"
+                alt=""
+              />
+            </div>
+            <div id="child2">
+              <h1 id="font-size">${name}</h1>
+              <h2 id="font-size">${email}</h2>
+              <h3 id="font-size">${new Date().toLocaleString()}</h3>
+            </div>
+            <div id="child3">
+              <button id="btn_1">
+                <i class="fa-solid fa-list-ul"></i> Connect
+              </button>
+            </div>
+          </div>
+          <div class="thirdchild">
+            <div class="postcontent">
+             ${postmenu.value}
+              <div class="video_img">
+                <img
+                  id="imgpost"
+                  src= ${downloadURL}
+                  height="200px"
+                  width="100%"
+                  alt=""
+                />
+              </div>
+              <!-- <hr /> -->
+              <div class="likes">
+                <div class="like1"><i class="fa-regular fa-thumbs-up"></i></div>
+                <div class="like2"><i class="fa-regular fa-comment"></i></div>
+                <div class="like3"><i class="fa-solid fa-upload"></i></div>
+                <div class="like4">
+                  <i class="fa-solid fa-share"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>`
+          divPost.innerHTML += postcontent;
+          postMain.appendChild(divPost);
+         
+         });
+        
+       }
+       );
 
  
-//  await setDoc(doc(db, "postcontent",isloggedinuser ), {
-//      posttext: postmenu.value,
-//      id: isloggedinuser,
-//      Name: name,
-//      Email: email,
-//      date: new Date().toLocaleString()
+  // uploadImagesfoo(image)
 
-//  });
- await addDoc(collection(db, "postcontent"), {
-    posttext: postmenu.value,
-         id: isloggedinuser,
-         Name: name,
-         Email: email,
-         date: new Date().toLocaleString(),
-         image:uploadImages.type
-  });
-let postcontent =` <div class="container">
-<div class="firstchild">
-  <h3>Muhammad Mutahir <small id="smaal1">like this post</small></h3>
-  <span id="first_child_space">
-    <!-- <i class="fa-solid fa-ellipsis"></i> -->
-    <select name="" id="" >
-      <option value=""><option>
-      <option value="">Delet</option>
-      <option value="">Edit</option>
-      <option value="">Lock</option>
-    </select>
-    <i class="fa-solid fa-xmark"></i>
-  </span>
-</div>
-<!-- <br /> -->
-<hr id="line1" />
-<div class="secondchild">
-  <div id="child1">
-    <img
-      id="imgprofilemain"
-      src="./dasbordimg/profile1.jpeg"
-      height="50px"
-      width="50px"
-      alt=""
-    />
-  </div>
-  <div id="child2">
-    <h1 id="font-size">${name}</h1>
-    <h2 id="font-size">${email}</h2>
-    <h3 id="font-size">1-12-2023</h3>
-  </div>
-  <div id="child3">
-    <button id="btn_1">
-      <i class="fa-solid fa-list-ul"></i> Connect
-    </button>
-  </div>
-</div>
-<div class="thirdchild">
-  <div class="postcontent">
-   ${postmenu.value}
-    <div class="video_img">
-      <img
-        id="imgpost"
-        src="./dasbordimg/postimg.jpg"
-        height="200px"
-        width="100%"
-        alt=""
-      />
-    </div>
-    <!-- <hr /> -->
-    <div class="likes">
-      <div class="like1"><i class="fa-regular fa-thumbs-up"></i></div>
-      <div class="like2"><i class="fa-regular fa-comment"></i></div>
-      <div class="like3"><i class="fa-solid fa-upload"></i></div>
-      <div class="like4">
-        <i class="fa-solid fa-share"></i>
-      </div>
-    </div>
-  </div>
-</div>
-</div>`
 
 //  console.log(postcontent)
- divPost.innerHTML += postcontent;
- postMain.appendChild(divPost);
 
 }
 
@@ -295,7 +380,8 @@ let postcontents=
     <div class="video_img">
       <img
         id="imgpost"
-        src="dasbordimg/postimg.jpg"
+       
+        src=${doc.data().image|| './dasbordimg/profile1.jpeg'}
       
         height="200px"
         width="100%"
@@ -320,7 +406,8 @@ postMain.appendChild(divPost)
   // console.log(doc.id, " => ", doc.data());
  
 
-    console.log(doc.data().posttext,doc.data().Email,doc.data().Name);
+    // console.log(doc.data().posttext,doc.data().Email,doc.data().Name,
+    // doc.data().image);
    
 });
 
@@ -332,7 +419,7 @@ postMain.appendChild(divPost)
 // fa_solid.addEventListener('click',uploadImages)
 
 
-window.uploadImagesfoo = uploadImagesfoo
+// window.uploadImagesfoo = uploadImagesfoo
 
 
 
@@ -398,4 +485,3 @@ window.uploadImagesfoo = uploadImagesfoo
 
 
 
-// displaypost()
