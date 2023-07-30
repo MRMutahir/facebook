@@ -194,7 +194,7 @@ async function postUiset() {
               <!-- <i class="fa-solid fa-ellipsis"></i> -->
               <select name="" id="" >
                 <option value=""><option>
-                <option value="">Delet</option>
+                <option value="" onclick="deleteItem()">Delet</option>
                 <option value="">Edit</option>
                 <option value="">Lock</option>
               </select>
@@ -287,7 +287,7 @@ let postcontents=
     <!-- <i class="fa-solid fa-ellipsis"></i> -->
     <select name="" id="" >
       <option value=""><option>
-      <option value="">Delet</option>
+      <option value="" ${onclick='deleteItem()'}>Delet</option>
       <option value="">Edit</option>
       <option value="">Lock</option>
     </select>
@@ -360,6 +360,13 @@ postMain.appendChild(divPost)
 
 
 
+// let newshref= document.getElementById('newshref');
+// newshref.addEventListener('click',()=>{
+//   // window.open('./News/news.html') 
+// })
+// delet()
+
+// window.deleteItem = deleteItem
 //  >>>>>>>>>>>>>>>>>>> video section using API >>>>>>>>>>>>>>
 
 
