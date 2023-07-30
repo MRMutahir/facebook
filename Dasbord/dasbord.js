@@ -79,72 +79,14 @@ logout.addEventListener('click',()=>{signOut(auth).then(() => {
 
 postBtn1.addEventListener('click', async() => {
     postUiset();
-    postdatasave();
+    // postdatasave();
 });
 
 
 
-async function postdatasave() {
+// async function postdatasave() {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // try {
-    //     const docRef = doc(db, "usersigindata", isloggedinuser)
-    //     const docSnap = await getDoc(docRef);
-    //     // console.log(docRef);
-
-    //     if (docSnap.exists()) {
-    //         try {
-    //             // const docRef = await addDoc(collection(db, "postcontent"), {
-    //             //     posttext: postmenu.value,
-    //             //     date: new Date().toLocaleString(),
-    //             //     userid: isloggedinuser,
-    //             //     namecurent: name,
-    //             //     emailcrent: email,
-    //             //     fathername: fname
-    //             // });
-
-    //             console.log("Document written with ID: ye id post ki hen ", docRef.id);
-    //             // console.log(isloggedinuser);
-    //         } catch (error) {
-    //             console.error("Error adding document: ", error);
-    //         }
-    //         // console.log(docSnap.data());
-
-    //     } else {
-    //         // docSnap.data() will be undefined in this case
-    //         console.log("No such document!");
-    //     }
-
-    // } catch (error) {
-    //     console.log(error);
-    // }
-
-
-};
+// };
 
 
 let divPost = document.createElement('div');
@@ -180,7 +122,7 @@ async function postUiset() {
     }
      const { name, email,} = docSnap.data();
    
-     let   realimage = uploadImages.files[0]|| "dasbordimg/postimg.jpg"
+     let   realimage = uploadImages.files[0] || "dasbordimg/postimg.jpg"
      console.log(realimage);
      
      
@@ -310,9 +252,10 @@ async function postUiset() {
           postMain.appendChild(divPost);
          
          });
-        
-       }
-       );
+        }
+        );
+        postmenu.value = '';
+        realimage = ''
 
  
   // uploadImagesfoo(image)
