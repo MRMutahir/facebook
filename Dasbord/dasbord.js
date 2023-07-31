@@ -489,7 +489,7 @@ getsrcsingleimage()
 // delet()
 
 // window.deleteItem = deleteItem
-//  >>>>>>>>>>>>>>>>>>> video section using API >>>>>>>>>>>>>>
+
 
 
 
