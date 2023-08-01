@@ -1,9 +1,10 @@
  import { collection, getDocs, addDoc, db, getAuth, onAuthStateChanged, doc, getDoc, setDoc, onSnapshot,getDocFromCache,deleteDoc , getStorage ,ref, uploadBytesResumable, getDownloadURL ,signOut } from "../forms/firebase.js";
 
-let login_email = document.querySelector('.login_email');
-let login_name = document.querySelector('.login_name');
-let login_birthday = document.querySelector('.login_birthday');
-let login_fname = document.querySelector('.login_fname');
+    let login_email = document.querySelector('.login_email');
+    let login_name = document.querySelector('.login_name');
+    let login_birthday = document.querySelector('.login_birthday');
+    let dasbordprofile = document.getElementById('dasbordprofile');
+    let login_fname = document.querySelector('.login_fname');
 // console.log(login_fname);
 let isloggedinuser;
 
@@ -44,8 +45,9 @@ let displayuserData = async(usercurrentID) => {
     if (docSnap.exists()) {
     
         // console.log("Document data:", docSnap.data());
-        const { name, email, date, month, years, fathername } = docSnap.data();
+        const { name, email, date, month, years, fathername,Image } = docSnap.data();
         login_name.innerHTML = name
+        dasbordprofile.src  = Image
         login_email.innerHTML = email
         login_fname.innerHTML = fathername
         login_birthday.innerHTML = `${date }  - ${month }- ${years }`
@@ -67,26 +69,14 @@ let logout = document.getElementById('logout');
 logout.addEventListener('click',()=>{signOut(auth).then(() => {
   // Sign-out successful.
   console.log("Sign-out successful.");
+  localStorage.removeItem('image');
+  dasbordprofile.src = dasbordprofile.src
   window.location = '/forms/index.html'
 
 }).catch((error) => {
   // An error happened.
   console.log(error,'An error happened.');
 });})
-
-//
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 postBtn1.addEventListener('click', async() => {
@@ -129,7 +119,7 @@ async function postUiset() {
         
         console.log("No such document!");
     }
-     const { name, email,} = docSnap.data();
+     const { name, email,Image} = docSnap.data();
    
      let   realimage = uploadImages.files[0] || "dasbordimg/postimg.jpg"
      console.log(realimage);
@@ -186,16 +176,17 @@ async function postUiset() {
        () => {
          // Upload completed successfully, now we can get the download URL
          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-           //  console.log('File available at downloadURL', downloadURL);
+            console.log('File available at post  downloadURL', downloadURL);
            // (downloadURL)
-            imageURL =downloadURL
+            // imageURL = downloadURL
             addDoc(collection(db, "postcontent"), {
             posttext: postmenu.value,
                  id: isloggedinuser,
                  Name: name,
                  Email: email,
                  date: new Date().toLocaleString(),
-                 image:downloadURL
+                 image:downloadURL,
+                 profileimage:Image
           });
           
          
@@ -220,7 +211,7 @@ async function postUiset() {
             <div id="child1">
               <img
                 id="imgprofilemain"
-                src="./dasbordimg/profile1.jpeg"
+                src="${Image  ||'./dasbordimg/profile1.jpeg'}"
                 height="50px"
                 width="50px"
                 alt=""
@@ -315,7 +306,7 @@ let postcontents=
   <div id="child1">
     <img
       id="imgprofilemain"
-      src=""
+      src="${doc.data().profileimage}"
       height="50px"
       width="50px"
       alt=""
@@ -371,66 +362,126 @@ postMain.appendChild(divPost)
 
 
 
+// Function to handle the click event on the icon
+function handleIconClick() {
+  // Trigger the click event of the hidden file input element when the icon is clicked
+  fileInput.click();
+  dasbordprofile.src  = ''
+  localStorage.removeItem('image');
 
+}
 
+// Get the icon element by its ID
+const uploadIcon = document.getElementById('uploadIcon');
+// Get the hidden file input element by its ID
+const fileInput = document.getElementById('fileInput');
 
+// Add a click event listener to the icon
+uploadIcon.addEventListener('click', handleIconClick);
 
+// Add an event listener to the file input to handle file selection
+fileInput.addEventListener('change', handleFileSelect);
 
+// Function to handle file selection
+function handleFileSelect() {
+  // Get the selected file(s) from the file input
+  const selectedFiles = fileInput.files;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-profileimage()
-
-
-
-
-
-async function profileimage(params) {
-
-  // Function to handle file selection
-  function handleFileSelect() {
+  // Process the selected file(s) as needed (e.g., display file names, upload files, etc.)
+  if (selectedFiles.length > 0) {
+      for (const file of selectedFiles) {
+          console.log('Selected file:', file.name);
+          // You can perform additional actions with the selected file(s) here
   
-    // Process the selected file(s) as needed (e.g., display file names, upload files, etc.)
-    let filesset 
-    if (selectedFiles.length > 0) {
-        for (const file of selectedFiles) {
-            console.log('Selected file:', file.name);
-            filesset = file.name
-           }
-         
 
-        
-      }
+// Create the file metadata
+/** @type {any} */
+const metadata = {
+  contentType: 'image/jpeg'
+};
 
-  console.log(filesset);
-  
+// Upload file and metadata to the object 'images/mountains.jpg'
+const storageRef = ref(storage, 'imagessingle/' + file.name);
+const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+
+// Listen for state changes, errors, and completion of the upload.
+uploadTask.on('state_changed',
+  (snapshot) => {
+    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    console.log('Upload is ' + progress + '% done');
+    switch (snapshot.state) {
+      case 'paused':
+        console.log('Upload is paused');
+        break;
+      case 'running':
+        console.log('Upload is running');
+        break;
     }
+  }, 
+  (error) => {
+    // A full list of error codes is available at
+    // https://firebase.google.com/docs/storage/web/handle-errors
+    switch (error.code) {
+      case 'storage/unauthorized':
+        // User doesn't have permission to access the object
+        break;
+      case 'storage/canceled':
+        // User canceled the upload
+        break;
 
+      // ...
+
+      case 'storage/unknown':
+        // Unknown error occurred, inspect error.serverResponse
+        break;
+    }
+  }, 
+  () => {
+    // Upload completed successfully, now we can get the download URL
+    getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
+      console.log('File available at', downloadURL);
+      const docRefe = await addDoc(collection(db, "singleimage"), {
+        image:downloadURL
+       })
+       console.log("Document written with ID: 12:50 am ", docRefe.id) ;
+       let id = docRefe.id
+       const docRef = doc(db, "singleimage", id);
+       const docSnap = await getDoc(docRef);
+       refresh(id)
+       if (docSnap.exists()) {
+        //  console.log("Document data:", docSnap.data());
+         dasbordprofile.src = docSnap.data().image
+         localStorage.setItem("image", docSnap.data().image )
+     
+       } else {
+         // docSnap.data() will be undefined in this case
+         console.log("No such document!");
+       }
+           
+
+
+    });
+  }
+);
+      }
+  }
+}
+
+
+
+
+
+refresh()
+
+
+async function refresh(id) {
+  console.log("refresh");
+  console.log(id);
+  let a = localStorage.getItem("image")
   
-
-
-
-
-
-
-
-
+  
+  dasbordprofile.src = a
 }
 
 
@@ -439,48 +490,6 @@ async function profileimage(params) {
 
 
 
-async() => {
-  // Upload completed successfully, now we can get the download URL
-   getDownloadURL(uploadTask.snapshot.ref).then (async(downloadURL) => {
-    console.log('File available at', downloadURL);
-    let dasbordprofile = document.getElementById('dasbordprofile');
-        dasbordprofile.src = downloadURL;
-
-        
-
-        const docRefe = await addDoc(collection(db, "singleimage"), {
-          image:downloadURL
-         })
-         
-        //  await setDoc(doc(db, "usersigindata", isloggedinuser), {
-        //   image:downloadURL
-          
-        // });
-       // getsrcsingleimage()
-       console.log("Document written with ID: 12:50 am ", docRefe.id) ;
-    
-
-      let a = docRefe.id
 
 
-
-       const docRef = doc(db, "singleimage", a);
-       const docSnap = await getDoc(docRef);
-       
-       if (docSnap.exists()) {
-         console.log("Document data:", docSnap.data());
-         dasbordprofile.src = docSnap.data().image
-     
-       } else {
-         // docSnap.data() will be undefined in this case
-         console.log("No such document!");
-       }
-
-   
-  
-      });
-      
-          //  a(docRef.id)
-        
-        
-    }
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> codepen

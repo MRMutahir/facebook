@@ -3,7 +3,10 @@
     padding: 0;
     box-sizing: border-box;
 }
-body{
+/* body{
+    
+} */
+.countainer{
     display: grid;
     grid-template-columns: 1fr 1fr; /* Two columns with equal width */
     grid-gap: 10px; /* Optional gap between items */

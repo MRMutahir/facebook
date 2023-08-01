@@ -197,3 +197,19 @@ p {
     font-size: 20px;
     font-weight: 500;
 }
+
+
+.selectprofileimage{
+    margin: 10px;
+    
+    /* line-height: 90px; */
+}
+.selectprofileimage input{
+  /* border-radius: 50px; */
+  margin-top: 20px;
+}
+#selectprofile{
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+}

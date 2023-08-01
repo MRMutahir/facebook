@@ -102,25 +102,31 @@
         gap: 20px;
       }
 
-      .same div {
+      /* .same div {
         margin-bottom: 20px !important;
-      }
+      } */
     </style>
-    <div class="col-sm- same">
-      <div class="img" id="dasbordimage">
-        <img id="dasbordprofile" src="./dasbordimg/postimg.jpg" />
-        <i class="icon fa-solid fa-upload" id="uploadIcon"></i>
-        <input type="file" id="fileInput" style="display: none" />
+    <div class="col-sm- same userinfomain">
+      <div class="userinfo">
+        <div class="img" id="dasbordimage">
+          <img id="dasbordprofile" src="./dasbordimg/postimg.jpg" />
+          <i class="icon fa-solid fa-upload" id="uploadIcon"></i>
+          <input type="file" id="fileInput" style="display: none" />
+        </div>
+
+        <div class="login_name">login_name</div>
+        <div class="login_fname">login_fname</div>
+        <div class="login_email">login_email</div>
+        <div class="login_birthday">login_birthday</div>
       </div>
-      <div class="login_name">login_name</div>
-      <div class="login_fname">login_fname</div>
-      <div class="login_email">login_email</div>
-      <div class="login_birthday">login_birthday</div>
+      <div class="coursal"></div>
     </div>
+
     <div class="container-first">
       <div class="postsec">
         <input type="text" id="postmenu" />
-        <input type="file" id="uploadImages" />
+
+        <input type="file" class="inputfile" id="uploadImages" />
         <button id="postBtn1">post</button>
       </div>
       <div id="postMain"></div>
@@ -134,4 +140,5 @@
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
     crossorigin="anonymous"
   ></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </html>

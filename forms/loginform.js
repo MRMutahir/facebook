@@ -12,8 +12,14 @@ loginbtn.addEventListener('click', () => {
             // ...
             // console.log(user);
             // console.log(user.uid);
+            Swal.fire('sucsusful Login');
+            setTimeout(() => {
+                window.location.href = "../Dasbord/dasbord.html";
+            }, 5000);
+          
+            
 
-            window.location.href = "../Dasbord/dasbord.html";
+          
             loginEmail.innerHTML = '';
             loginPassword.innerHTML = ''
 

@@ -5,7 +5,7 @@ let id = document.querySelector(".id");
 let longURL = document.querySelector(".longURL");
 let thumbnailImage = document.querySelector(".thumbnailImage");
 let title = document.querySelector(".title");
-// console.log(card, id, date, longURL, thumbnailImage, title);
+console.log(card, id, date, longURL, thumbnailImage, title);
 
 let cards_container = document.getElementById('cards-container');
 let templateNewsCard = document.getElementById('template-news-card');
