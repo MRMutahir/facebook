@@ -1,6 +1,4 @@
-// let number = document.getElementById('number');
-// let emaildash = document.getElementById('email');
-import { collection, getDocs, addDoc, db, getAuth, onAuthStateChanged, doc, getDoc, setDoc, onSnapshot,getDocFromCache,deleteDoc , getStorage ,ref, uploadBytesResumable, getDownloadURL ,signOut } from "../forms/firebase.js";
+ import { collection, getDocs, addDoc, db, getAuth, onAuthStateChanged, doc, getDoc, setDoc, onSnapshot,getDocFromCache,deleteDoc , getStorage ,ref, uploadBytesResumable, getDownloadURL ,signOut } from "../forms/firebase.js";
 
 let login_email = document.querySelector('.login_email');
 let login_name = document.querySelector('.login_name');
@@ -8,6 +6,8 @@ let login_birthday = document.querySelector('.login_birthday');
 let login_fname = document.querySelector('.login_fname');
 // console.log(login_fname);
 let isloggedinuser;
+
+
 const auth = getAuth();
 const storage = getStorage();
 onAuthStateChanged(auth, async(user) => {
@@ -74,24 +74,33 @@ logout.addEventListener('click',()=>{signOut(auth).then(() => {
   console.log(error,'An error happened.');
 });})
 
-// console.log(uploadImages.files[0]);
-// console.log(postmenu.value);
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 postBtn1.addEventListener('click', async() => {
     postUiset();
-    // postdatasave();
+  
 });
 
 
 
-// async function postdatasave() {
-
-// };
 
 
 let divPost = document.createElement('div');
 async function postUiset() {
-    let date = new Date().toLocaleString()
+   
 
  
 
@@ -127,9 +136,7 @@ async function postUiset() {
      
      
      
-     
-     
-     
+  
      
      // Create the file metadata
      /** @type {any} */
@@ -174,11 +181,14 @@ async function postUiset() {
                break;
          }
        }, 
+
+      
        () => {
          // Upload completed successfully, now we can get the download URL
          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          //  console.log('File available at downloadURL', downloadURL);
+           //  console.log('File available at downloadURL', downloadURL);
            // (downloadURL)
+            imageURL =downloadURL
             addDoc(collection(db, "postcontent"), {
             posttext: postmenu.value,
                  id: isloggedinuser,
@@ -187,10 +197,9 @@ async function postUiset() {
                  date: new Date().toLocaleString(),
                  image:downloadURL
           });
-          // 
-          // Get a value from LocalStorage
-const value = localStorage.getItem('curentimage');
-
+          
+         
+          
           let postcontent =` <div class="container">
           <div class="firstchild">
             <h3>Muhammad Mutahir <small id="smaal1">like this post</small></h3>
@@ -211,7 +220,7 @@ const value = localStorage.getItem('curentimage');
             <div id="child1">
               <img
                 id="imgprofilemain"
-                src="${value}"
+                src="./dasbordimg/profile1.jpeg"
                 height="50px"
                 width="50px"
                 alt=""
@@ -262,15 +271,12 @@ const value = localStorage.getItem('curentimage');
         realimage = ''
 
  
-  // uploadImagesfoo(image)
-
-
-//  console.log(postcontent)
+  
 
 }
 
 
-displaypost()
+displaypost();
 
 
 async function displaypost() {
@@ -278,13 +284,16 @@ async function displaypost() {
    
 
   console.log('salam');
-  const value = localStorage.getItem('curentimage');
+  
 
- 
+
 
 const querySnapshot = await getDocs(collection(db, "postcontent"));
 
+
 querySnapshot.forEach((doc) => { 
+
+
 let postcontents=
   ` <div class="container">
   <div class="firstchild">
@@ -306,7 +315,7 @@ let postcontents=
   <div id="child1">
     <img
       id="imgprofilemain"
-      src="${value}./dasbordimg/profile1.jpeg"
+      src=""
       height="50px"
       width="50px"
       alt=""
@@ -330,7 +339,7 @@ let postcontents=
       <img
         id="imgpost"
        
-        src=${doc.data().image|| './dasbordimg/profile1.jpeg'}
+        src=${doc.data().image || './dasbordimg/profile1.jpeg'}
       
         height="200px"
         width="100%"
@@ -351,12 +360,7 @@ let postcontents=
 </div>`
 divPost.innerHTML += postcontents;
 postMain.appendChild(divPost)
-  // doc.data() is never undefined for query doc snapshots
-  // console.log(doc.id, " => ", doc.data());
- 
 
-    // console.log(doc.data().posttext,doc.data().Email,doc.data().Name,
-    // doc.data().image);
    
 });
 
@@ -365,166 +369,176 @@ postMain.appendChild(divPost)
 }
 
 
-// Function to handle the click event on the icon
-function handleIconClick() {
-  // Trigger the click event of the hidden file input element when the icon is clicked
-  fileInput.click();
-}
-
-// Get the icon element by its ID
-const uploadIcon = document.getElementById('uploadIcon');
-// Get the hidden file input element by its ID
-const fileInput = document.getElementById('fileInput');
-
-// Add a click event listener to the icon
-uploadIcon.addEventListener('click', handleIconClick);
-
-// Add an event listener to the file input to handle file selection
-fileInput.addEventListener('change', handleFileSelect);
-
-// Function to handle file selection
-function handleFileSelect() {
-  // Get the selected file(s) from the file input
-  const selectedFiles = fileInput.files;
-
-  // Process the selected file(s) as needed (e.g., display file names, upload files, etc.)
-  if (selectedFiles.length > 0) {
-      for (const file of selectedFiles) {
-          console.log('Selected file:', file.name);
-          // You can perform additional actions with the selected file(s) here
-          // Create the file metadata
-/** @type {any} */
-const metadata = {
-  contentType: 'image/jpeg'
-};
-
-// Upload file and metadata to the object 'images/mountains.jpg'
-const storageRef = ref(storage, 'singleimages/' + file.name);
-const uploadTask = uploadBytesResumable(storageRef, file, metadata);
-
-// Listen for state changes, errors, and completion of the upload.
-uploadTask.on('state_changed',
-  (snapshot) => {
-    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    console.log('Upload is ' + progress + '% done');
-    switch (snapshot.state) {
-      case 'paused':
-        console.log('Upload is paused');
-        break;
-      case 'running':
-        console.log('Upload is running');
-        break;
-    }
-  }, 
-  (error) => {
-    // A full list of error codes is available at
-    // https://firebase.google.com/docs/storage/web/handle-errors
-    switch (error.code) {
-      case 'storage/unauthorized':
-        // User doesn't have permission to access the object
-        break;
-      case 'storage/canceled':
-        // User canceled the upload
-        break;
-
-      // ...
-
-      case 'storage/unknown':
-        // Unknown error occurred, inspect error.serverResponse
-        break;
-    }
-  }, 
-  () => {
-    // Upload completed successfully, now we can get the download URL
-    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-      console.log('File available at', downloadURL);
-      let dasbordprofile = document.getElementById('dasbordprofile');
-      dasbordprofile.src = downloadURL;
-      addDoc(collection(db, "singleimage"), {
-             image:downloadURL
-      })
-       // Set a value in LocalStorage
-  //  localStorage.setItem('image', downloadURL);
-   localStorage.setItem('curentimage', downloadURL);
-
-      
-      // Add a new document with a generated id.
-      // async function srcimage(params) {
-      //   const docRef = await addDoc(collection(db, "singlesrcimage"), {
-      //     src:downloadURL,
-      //     // id:docRef.id
-      //   });
-      //   console.log("Document written with ID: ", docRef.id) ;
-      // }
-      // srcimage()
 
 
 
 
-    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+profileimage()
+
+
+
+
+
+async function profileimage(params) {
+
+let fieldset
+
+  function handleIconClick() {
+    // Trigger the click event of the hidden file input element when the icon is clicked
+    fileInput.click();
   }
-);
+  
+  // Get the icon element by its ID
+  const uploadIcon = document.getElementById('uploadIcon');
+  // Get the hidden file input element by its ID
+  const fileInput = document.getElementById('fileInput');
+  
+  // Add a click event listener to the icon
+  uploadIcon.addEventListener('click', handleIconClick);
+  
+  // Add an event listener to the file input to handle file selection
+  fileInput.addEventListener('change', handleFileSelect);
+  
+  // Function to handle file selection
+  function handleFileSelect() {
+    // Get the selected file(s) from the file input
+    const selectedFiles = fileInput.files;
+  
+    // Process the selected file(s) as needed (e.g., display file names, upload files, etc.)
+    if (selectedFiles.length > 0) {
+        for (const file of selectedFiles) {
+            console.log('Selected file:', file.name);
+            fieldset = file.name
+            // You can perform additional actions with the selected file(s) here
+            // Create the file metadata 
+           }
+  /** @type {any} */
+  const metadata = {
+    contentType: 'image/jpeg'
+  };
+  
+  // Upload file and metadata to the object 'images/mountains.jpg'
+  const storageRef = ref(storage, 'singleimages/' + fieldset);
+  const uploadTask = uploadBytesResumable(storageRef, fieldset, metadata);
+  
+  // Listen for state changes, errors, and completion of the upload.
+  uploadTask.on('state_changed',
+    (snapshot) => {
+      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is ' + progress + '% done');
+      switch (snapshot.state) {
+        case 'paused':
+          console.log('Upload is paused');
+          break;
+        case 'running':
+          console.log('Upload is running');
+          break;
       }
-  }
+    }, 
+    (error) => {
+      // A full list of error codes is available at
+      // https://firebase.google.com/docs/storage/web/handle-errors
+      switch (error.code) {
+        case 'storage/unauthorized':
+          // User doesn't have permission to access the object
+          break;
+        case 'storage/canceled':
+          // User canceled the upload
+          break;
+  
+        // ...
+  
+        case 'storage/unknown':
+          // Unknown error occurred, inspect error.serverResponse
+          break;
+      }
+    }, 
+    async() => {
+      // Upload completed successfully, now we can get the download URL
+       getDownloadURL(uploadTask.snapshot.ref).then (async(downloadURL) => {
+        console.log('File available at', downloadURL);
+        let dasbordprofile = document.getElementById('dasbordprofile');
+            dasbordprofile.src = downloadURL;
+
+            
+
+            const docRefe = await addDoc(collection(db, "singleimage"), {
+              image:downloadURL
+             })
+             
+            //  await setDoc(doc(db, "usersigindata", isloggedinuser), {
+            //   image:downloadURL
+              
+            // });
+           // getsrcsingleimage()
+           console.log("Document written with ID: 12:50 am ", docRefe.id) ;
+        
+
+          let a = docRefe.id
+
+
+
+           const docRef = doc(db, "singleimage", a);
+           const docSnap = await getDoc(docRef);
+           
+           if (docSnap.exists()) {
+             console.log("Document data:", docSnap.data());
+             dasbordprofile.src = docSnap.data().image
+         
+           } else {
+             // docSnap.data() will be undefined in this case
+             console.log("No such document!");
+           }
+   
+       
+      
+          });
+          
+              //  a(docRef.id)
+            
+            
+        }
+
+
+
+        );
+        
+      }
+
+  
+  
+    }
+
+  
+
+
+
+
+
+
+
+
 }
-
-async function getsrcsingleimage() {
-  // Get a value from LocalStorage
-const valueimage = localStorage.getItem('curentimage');
-console.log(valueimage,'tolocalstorage');
-
-  let dasbordprofile = document.getElementById('dasbordprofile');
-  dasbordprofile.src =  valueimage;
-  
-  
-  
-}
-getsrcsingleimage()
-
-// let newshref= document.getElementById('newshref');
-// newshref.addEventListener('click',()=>{
-//   // window.open('./News/news.html') 
-// })
-// delet()
-
-// window.deleteItem = deleteItem
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
