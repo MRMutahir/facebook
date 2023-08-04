@@ -15,7 +15,7 @@ loginbtn.addEventListener('click', () => {
             Swal.fire('sucsusful Login');
             setTimeout(() => {
                 window.location.href = "../Dasbord/dasbord.html";
-            }, 5000);
+            }, 2000);
           
             
 
