@@ -284,10 +284,13 @@ top: 80px;
 
 
 .sidesection{
-  width: 40px;
+  width: 30vw;
   padding: 20px;
   /* color: #076585; */
-  /* overflow: hidden; */
+  position: fixed;
+  /* background: red; */
+  top: 56px;
+  right: 0;
 }
 .sideitemchild{
   display: flex;
@@ -377,7 +380,17 @@ top: 80px;
 .carousel-inner{
   
   border-radius: 30px;
+  margin-top: 20px;
 }
 .carousel-item img{
   height: 300px;
+}
+.navbar{
+  position: fixed;
+  z-index: 5;
+  width: 100vw;
+}
+
+.stories{
+  margin-top: 10vh;
 }
